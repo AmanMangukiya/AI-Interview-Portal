@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class MockInterviewController {
 
     private final GenAIService genAIService;
-    @CrossOrigin(origins = "http://localhost:5174")
+
     @PostMapping("/generate")
     public ResponseEntity<MockInterviewResponse> generateQuestions(
             @RequestBody MockInterviewRequest request) {
