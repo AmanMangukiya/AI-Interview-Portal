@@ -30,5 +30,4 @@ A  web application that helps users prepare for technical interviews with AI-gen
 
 ---
 
-## 🏗️ Folder Structure
 
