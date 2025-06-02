@@ -16,9 +16,9 @@ public class ResumeController {
 
     @PostMapping("/analyze")
     public ResponseEntity<ResumeFeedbackResponse> analyzeResume(
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file , @RequestParam("jobDescription") String jobDescription) {
 
-        ResumeFeedbackResponse feedback = resumeService.analyzeResume(file);
+        ResumeFeedbackResponse feedback = resumeService.analyzeResume(file,jobDescription);
         return ResponseEntity.ok(feedback);
     }
 }

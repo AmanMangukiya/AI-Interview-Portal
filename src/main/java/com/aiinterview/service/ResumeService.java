@@ -20,16 +20,30 @@ public class ResumeService {
 
     private final GenAIService genAIService;
 
-    public ResumeFeedbackResponse analyzeResume(MultipartFile file) {
+    public ResumeFeedbackResponse analyzeResume(MultipartFile file,String jobDescription) {
         try {
             // Extract text using Apache Tika
             Tika tika = new Tika();
             String resumeText = tika.parseToString(file.getInputStream());
 
             // Build prompt
+//            String prompt = String.format(
+//                    "Analyze the following resume text and give improvement suggestions " +
+//                            "for a Java Developer role:\n\n%s", resumeText
+//            );
+
             String prompt = String.format(
-                    "Analyze the following resume text and give improvement suggestions " +
-                            "for a Java Developer role:\n\n%s", resumeText
+                    "You are an expert career coach and resume evaluator.\n\n" +
+                            "Given the following resume content:\n\n%s\n\n" +
+                            "And the following job description:\n\n%s\n\n" +
+                            "Please analyze how well the resume aligns with the job description. Provide detailed and constructive suggestions to improve the resume, such as:\n" +
+                            "- Skills or keywords that are missing or need more emphasis\n" +
+                            "- Experience gaps or areas that need elaboration\n" +
+                            "- Formatting, structure, or clarity improvements\n" +
+                            "- Suggestions for tailoring the resume specifically to this job\n\n" +
+                            "Respond in a professional tone and format your feedback in bullet points or sections.",
+                    resumeText,
+                    jobDescription
             );
 
             // Send to GenAI
