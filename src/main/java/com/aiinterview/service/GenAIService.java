@@ -154,4 +154,56 @@ public class GenAIService {
         }
         return "Failed to get feedback from AI.";
     }
+
+    // 3. Generate most frequently asked questions with answers
+    public List<String> getFrequentlyAskedQuestionsWithAnswers(String topic) {
+//        String prompt = String.format(
+//                "Give 3 of the most frequently asked interview questions on the topic '%s' along with their model answers. " +
+//                        "Format each question with its answer. Avoid extra intro or summary text.",
+//                topic
+//        );
+
+        String prompt = String.format(
+                "Act as an experienced technical interviewer. Generate 5 of the most commonly asked interview questions on the topic '%s'. " +
+                        "For each question, provide a detailed, accurate, and concise model answer suitable for a job interview. " +
+                        "Format the response clearly as:\n\n" +
+                        "Q1: <question>\nA1: <answer>\n\nQ2: <question>\nA2: <answer>\n\nQ3: <question>\nA3: <answer>\n\n" +
+                        "Avoid any introductions or conclusions. Focus only on questions and answers.",
+                topic
+        );
+
+
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "mistralai/mistral-7b-instruct");
+        requestBody.put("messages", List.of(
+                Map.of("role", "user", "content", prompt)
+        ));
+        requestBody.put("max_tokens", 1000);  // Larger because answers are included
+        requestBody.put("temperature", 0.7);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(genaiApiKey);
+
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
+
+        try {
+            ResponseEntity<Map> response = restTemplate.exchange(
+                    genaiApiUrl, HttpMethod.POST, request, Map.class
+            );
+
+            if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+                String content = extractText(response.getBody());
+                return Arrays.stream(content.split("\n\n")) // Assuming AI separates Q&As with double newlines
+                        .map(String::trim)
+                        .filter(qa -> !qa.isEmpty())
+                        .collect(Collectors.toList());
+            }
+        } catch (Exception e) {
+            log.error("Error fetching FAQ with answers from AI", e);
+        }
+
+        return List.of("Unable to fetch FAQs with answers from AI.");
+    }
+
 }
