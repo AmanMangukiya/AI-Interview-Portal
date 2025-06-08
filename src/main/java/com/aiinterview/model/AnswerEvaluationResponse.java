@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class AnswerEvaluationResponse {
     private String feedback;
-    private int score; // Score out of 10
+    private double score; // Score out of 10
 }

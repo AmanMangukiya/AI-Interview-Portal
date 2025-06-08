@@ -83,11 +83,22 @@ public class GenAIService {
         }
     }
 
-    private int extractScore(String response) {
+    public int extractScore(String response) {
         try {
-            return Integer.parseInt(response.replaceAll("[^0-9]", "").substring(0, 2));
-        } catch (Exception e) {
-            return 0;
-        }
+            // Look for a number followed by '/10'
+            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(\\d+)/10").matcher(response);
+            if (matcher.find()) {
+                return Integer.parseInt(matcher.group(1));
+            }
+        } catch (Exception ignored) {}
+        return 0; // fallback
     }
+
+//    private int extractScore(String response) {
+//        try {
+//            return Integer.parseInt(response.replaceAll("[^0-9]", "").substring(0, 2));
+//        } catch (Exception e) {
+//            return 0;
+//        }
+//    }
 }
