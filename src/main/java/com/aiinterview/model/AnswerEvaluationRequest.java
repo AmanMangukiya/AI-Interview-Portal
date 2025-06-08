@@ -8,7 +8,7 @@ import java.util.List;
 public class AnswerEvaluationRequest {
 //    private String question;
 //    private String userAnswer;
-
+    private String topic;
     private List<String> questions;
     private List<String> answers;
 }

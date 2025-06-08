@@ -15,7 +15,7 @@ import java.util.List;
 public class QuizAttempt {
     @Id
     private String id;
-
+    private String topic;
     private String userId;
     private List<String> questions;
     private List<String> answers;

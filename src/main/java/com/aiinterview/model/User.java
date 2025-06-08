@@ -21,6 +21,7 @@ public class User {
     private String name;
     @Indexed(unique = true)  // Unique index
     private String email;
+
     private String password;
 
     private Set<String> roles; // e.g., USER, ADMIN

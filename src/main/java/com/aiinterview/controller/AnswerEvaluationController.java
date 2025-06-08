@@ -50,6 +50,7 @@ public class AnswerEvaluationController {
 
       QuizAttempt attempt= quizAttemptRepository.save(QuizAttempt.builder()
               .userId(userEmail)
+              .topic(request.getTopic())
               .questions(request.getQuestions())
               .answers(request.getAnswers())
               .feedback(feedbackBuilder.toString())
