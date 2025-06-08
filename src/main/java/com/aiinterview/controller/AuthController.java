@@ -73,6 +73,7 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+
 public class AuthController {
 
     private final UserService userService;
@@ -80,7 +81,7 @@ public class AuthController {
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationManager authenticationManager;
 
-    @CrossOrigin(origins = "http://localhost:5174")
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         if (userService.existsByEmail(user.getEmail())) {
@@ -99,7 +100,7 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    @CrossOrigin(origins = "http://localhost:5174")
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         try {

@@ -26,11 +26,6 @@ public class ResumeService {
             Tika tika = new Tika();
             String resumeText = tika.parseToString(file.getInputStream());
 
-            // Build prompt
-//            String prompt = String.format(
-//                    "Analyze the following resume text and give improvement suggestions " +
-//                            "for a Java Developer role:\n\n%s", resumeText
-//            );
 
             String prompt = String.format(
                     "You are an expert career coach and resume evaluator.\n\n" +
