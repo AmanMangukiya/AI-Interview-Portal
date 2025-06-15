@@ -1,6 +1,7 @@
 package com.aiinterview.controller;
 
 import com.aiinterview.model.User;
+import com.aiinterview.repository.QuizAttemptRepository;
 import com.aiinterview.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.List;
 public class AdminDashboardController {
 
     private final UserRepository userRepository;
+    private  final QuizAttemptRepository quizAttemptRepository;
     
 
     @GetMapping("/users")
@@ -21,11 +23,29 @@ public class AdminDashboardController {
         return ResponseEntity.ok(userRepository.findAll());
     }
 
-//    @GetMapping("/stats")
-//    public ResponseEntity<Map<String, Object>> getStats() {
-//        Map<String, Object> stats = new HashMap<>();
-//        stats.put("totalUsers", userRepository.count());
-//        stats.put("totalQuestions", questionRepository.count());
-//        return ResponseEntity.ok(stats);
-//    }
+    @DeleteMapping("/remove")
+
+    public ResponseEntity<?> deletUser(@RequestParam String email){
+
+        User user= userRepository.findByEmail(email).orElse(null);
+
+        if(user==null){
+            return ResponseEntity.notFound().build();
+        }
+
+        List<String> quiz_ids=user.getQuizAttemptIds();
+
+        if(quiz_ids!=null){
+
+               for(String id:quiz_ids){
+                   quizAttemptRepository.deleteById(id);
+               }
+        }
+
+        userRepository.delete(user);
+        return ResponseEntity.ok("User with email " + email + " deleted successfully.");
+
+    }
+
+
 }
