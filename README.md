@@ -11,7 +11,8 @@ A  web application that helps users prepare for technical interviews with AI-gen
 - 🎯 Select topics (e.g., Java, C, DSA)
 - ❓ Get AI-generated interview questions (MCQs or subjective)
 - 📝 Submit answers and receive AI-powered feedback
-- 📄 Upload your resume and get an AI-based review and suggestions
+- 📄 Upload your resume and get an AI-based review and suggestions for specific job description
+- 📝 frequently asked questions with answers in interview
 
 ### 👨‍💼 Admin
 - 👥 View/manage registered users
@@ -25,7 +26,7 @@ A  web application that helps users prepare for technical interviews with AI-gen
 | Backend      | Spring Boot (Java)         |
 | Database     | MongoDB                    |
 | Auth         | JWT (Spring Security)      |
-| AI Services  | OpenRouter / HuggingFace APIs |
+| AI Services  | OpenRouter                 |
 | Build Tool   | Maven                      |
 
 ---
