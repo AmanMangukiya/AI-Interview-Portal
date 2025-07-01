@@ -3,8 +3,11 @@ package com.aiinterview.service;
 import com.aiinterview.model.AnswerEvaluationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ai.openai.OpenAiChatOptions;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,17 +17,25 @@ import java.util.stream.Collectors;
 public class GenAIService {
 
     @Autowired
-    private  ChatClient chatClient;
+    private ChatClient chatClient;
 
     public List<String> generateInterviewQuestions(String topic, String difficulty) {
-        String prompt = String.format(
+        String s = String.format(
                 "Generate %s level interview questions on this %s. Only list of 2 questions, no extra line of text, no answers.",
                 difficulty, topic
         );
 
+        Prompt prompt = new Prompt(
+                s,
+                OpenAiChatOptions.builder()
+                        .withModel("deepseek/deepseek-r1-distill-llama-70b")
+                        .withTemperature(0.7f)
+                        .build()
+        );
+
         try {
-            String response = chatClient.call(prompt);
-            return List.of(response.split("\n")).stream()
+            String content = chatClient.call(prompt).getResult().getOutput().getContent();
+            return List.of(content.split("\n")).stream()
                     .map(String::trim)
                     .filter(line -> !line.isBlank())
                     .collect(Collectors.toList());
@@ -33,17 +44,24 @@ public class GenAIService {
             return List.of("AI Error: Unable to generate questions. " + e.getMessage());
         }
     }
-
     public AnswerEvaluationResponse evaluateAnswer(String question, String userAnswer) {
-        String prompt = String.format(
+        String s = String.format(
                 "Evaluate the following answer to the interview question.\n" +
                         "Question: %s\nUser's Answer: %s\n" +
                         "Give a score out of 10 and a short improvement suggestion and right answer.",
                 question, userAnswer
         );
 
+        Prompt prompt = new Prompt(
+                s,
+                OpenAiChatOptions.builder()
+                        .withModel("deepseek/deepseek-r1-distill-llama-70b")
+                        .withTemperature(0.7f)
+                        .build()
+        );
+
         try {
-            String content = chatClient.call(prompt);
+            String content = chatClient.call(prompt).getResult().getOutput().getContent();
             int score = extractScore(content);
             return new AnswerEvaluationResponse(content, score);
         } catch (Exception e) {
@@ -90,15 +108,10 @@ public class GenAIService {
             if (matcher.find()) {
                 return Integer.parseInt(matcher.group(1));
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return 0; // fallback
     }
 
-//    private int extractScore(String response) {
-//        try {
-//            return Integer.parseInt(response.replaceAll("[^0-9]", "").substring(0, 2));
-//        } catch (Exception e) {
-//            return 0;
-//        }
-//    }
 }
+
