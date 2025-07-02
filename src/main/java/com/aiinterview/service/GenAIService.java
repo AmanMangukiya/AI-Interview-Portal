@@ -71,7 +71,7 @@ public class GenAIService {
     }
 
     public List<String> getFrequentlyAskedQuestionsWithAnswers(String topic) {
-        String prompt = String.format(
+        String s = String.format(
                 "Act as an experienced technical interviewer. Generate 5 of the most commonly asked interview questions on the topic '%s'. " +
                         "For each question, provide a detailed, accurate, and concise model answer suitable for a job interview. " +
                         "Format the response clearly as:\n\n" +
@@ -80,8 +80,15 @@ public class GenAIService {
                 topic
         );
 
+        Prompt prompt = new Prompt(
+                s,
+                OpenAiChatOptions.builder()
+                        .withModel("deepseek/deepseek-r1-distill-llama-70b")
+                        .withTemperature(0.7f)
+                        .build()
+        );
         try {
-            String response = chatClient.call(prompt);
+            String response = chatClient.call(prompt).getResult().getOutput().getContent();
             return List.of(response.split("\n\n")).stream()
                     .map(String::trim)
                     .filter(qa -> !qa.isEmpty())
@@ -92,9 +99,18 @@ public class GenAIService {
         }
     }
 
-    public String sendPrompt(String prompt, int maxTokens, double temperature) {
+    public String sendPrompt(String s, int maxTokens, double temperature) {
+
+        Prompt prompt = new Prompt(
+                s,
+                OpenAiChatOptions.builder()
+                        .withModel("deepseek/deepseek-r1-distill-llama-70b")
+                        .withTemperature(0.7f)
+                        .build()
+        );
+
         try {
-            return chatClient.call(prompt);
+            return chatClient.call(prompt).getResult().getOutput().getContent();
         } catch (Exception e) {
             e.printStackTrace();
             return "AI Error: " + e.getMessage();
