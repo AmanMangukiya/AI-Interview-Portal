@@ -30,8 +30,6 @@ A backend, AI-powered web application that helps users prepare for technical int
 - **Apache Tika** (for resume text extraction)
 - **Spring AI + OpenRouter API** with `deepseek` model
 
-### 🌐 Frontend
-- React (📌 Sample frontend code available separately — plug & play)
 
 ---
 
@@ -93,7 +91,7 @@ src/
 ### 2️⃣ Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/ai-interview-portal.git
+git clone https://github.com/AmanMangukiya/AI-Interview-Portal .git
 cd ai-interview-portal
 ``````
 
@@ -123,4 +121,68 @@ You can import the Postman collection here to test all endpoints like:
 - /api/mock/evaluate
 - /api/resume/analyze
 - /api/admin/dashboard/users
+
+## 📡 API Endpoints
+
+> A full list of REST API endpoints available for users and admins.
+
+---
+
+### 🔐 Authentication
+
+| Method | Endpoint              | Description                   | Access |
+|--------|------------------------|-------------------------------|--------|
+| POST   | `/api/auth/register`   | Register a new user           | Public |
+| POST   | `/api/auth/login`      | Login and receive JWT token   | Public |
+
+---
+
+### 👤 User Features
+
+#### 🎯 Mock Interview & Evaluation
+
+| Method | Endpoint                     | Description                                           | Access  |
+|--------|------------------------------|-------------------------------------------------------|---------|
+| POST   | `/api/mock/generate`         | Generate AI-based mock interview questions            | USER    |
+| POST   | `/api/mock/evaluate`         | Submit answers and receive AI evaluation & feedback   | USER    |
+| GET    | `/api/mock/quizes`           | Get all quiz attempts of the logged-in user           | USER    |
+
+#### 📚 FAQs by Topic
+
+| Method | Endpoint                     | Description                                       | Access |
+|--------|------------------------------|---------------------------------------------------|--------|
+| GET    | `/api/faq?topic=Java`        | Get AI-generated FAQs with answers for a topic   | USER   |
+
+#### 📄 Resume Analyzer
+
+| Method | Endpoint                  | Description                                         | Access |
+|--------|---------------------------|-----------------------------------------------------|--------|
+| POST   | `/api/resume/analyze`     | Upload resume + job description for AI feedback     | USER   |
+
+**Request Parameters:**
+- `file`: Resume file (PDF, DOCX, etc.)  
+- `jobDescription`: Plain text job description
+
+---
+
+### 🛠️ Admin Dashboard
+
+| Method | Endpoint                                      | Description                                      | Access |
+|--------|-----------------------------------------------|--------------------------------------------------|--------|
+| GET    | `/api/admin/dashboard/users`                  | Get all registered users                         | ADMIN  |
+| DELETE | `/api/admin/dashboard/remove?email={email}`   | Delete a user and their quiz attempts by email   | ADMIN  |
+
+---
+
+### 📑 Headers Required (For Protected Endpoints)
+- Authorization: Bearer <your_jwt_token>
+- Content-Type: application/json
+---
+
+### 🧪 Sample Login Response
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR..."
+}
 
