@@ -52,11 +52,11 @@ Used for:
 ## 📁 Project Structure (Backend)
 
 src/
-├── controller/ # All REST APIs (Auth, Mock, Admin, Resume, FAQ)
-├── model/ # MongoDB document models and DTOs
-├── repository/ # Spring Data MongoDB Repos
-├── service/ # Core business logic and AI integration
-└── config/ # Spring Security and JWT config (if added)
+- ├── controller/ # All REST APIs (Auth, Mock, Admin, Resume, FAQ)
+- ├── model/ # MongoDB document models and DTOs
+- ├── repository/ # Spring Data MongoDB Repos
+- ├── service/ # Core business logic and AI integration
+- └── config/ # Spring Security and JWT config (if added)
 
 ---
 
@@ -109,10 +109,11 @@ cd ai-interview-portal
 - spring.ai.openai.base-url=https://openrouter.ai/api
 - spring.ai.openai.model=deepseek/deepseek-r1-distill-llama-70b
 
-###4️⃣ Run the Application ###
+
+### 4️⃣ Run the Application  ###
 - ./mvnw spring-boot:run
 
-##🧪 Postman Collection ##
+## 🧪 Postman Collection  ##
 
 You can import the Postman collection here to test all endpoints like:
 
