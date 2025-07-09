@@ -1,6 +1,6 @@
 # 🧠 AI Interview Preparation Portal
 
-A backend, AI-powered web application that helps users prepare for technical interviews with **MCQs**, **mock interviews**, **resume feedback**, and **personalized AI guidance**.
+A backend, AI-powered web application that helps users prepare for technical interviews with **Question Answer  Feedback **, **Frequently Asked Questions**, **Resume feedback**.
 
 ---
 
@@ -9,8 +9,7 @@ A backend, AI-powered web application that helps users prepare for technical int
 ### 👨‍🎓 For Users
 - 🔐 **Register/Login** with JWT authentication
 - 🎯 **Topic-based Quiz** system (Java, C, DSA, etc.)
-- 📊 **MCQ Feedback** with score tracking
-- 🧠 **AI Mock Interviews** with real-time answer evaluation
+- 📊 **Question Answer  Feedback using Generative AI** with score tracking
 - 📁 **Resume Analyzer**: Upload resume + JD and get detailed feedback
 - 📚 **AI FAQs**: Frequently asked questions with sample answers
 - 📈 **Quiz History**: Track all your previous attempts and performance
@@ -76,8 +75,6 @@ src/
 - Uses **Spring Security** with **JWT**
 - Role-based access (`USER`, `ADMIN`)
 - Tokens include roles and email
-- Frontend should store the token and send it in headers
-
 ---
 
 ## 🛠️ Setup & Run Locally
@@ -160,7 +157,7 @@ You can import the Postman collection here to test all endpoints like:
 | POST   | `/api/resume/analyze`     | Upload resume + job description for AI feedback     | USER   |
 
 **Request Parameters:**
-- `file`: Resume file (PDF, DOCX, etc.)  
+- `file`: Resume file (PDF,  etc.)  
 - `jobDescription`: Plain text job description
 
 ---
