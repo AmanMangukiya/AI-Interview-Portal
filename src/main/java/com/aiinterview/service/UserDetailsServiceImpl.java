@@ -1,4 +1,4 @@
-package com.aiinterview.config;
+package com.aiinterview.service;
 import com.aiinterview.model.User;
 import com.aiinterview.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
